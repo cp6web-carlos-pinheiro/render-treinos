@@ -1,0 +1,14 @@
+node_modules/
+.env
+.env.*
+dist/
+.next/
+build/
+*.log
+tasks/
+.cloude/
+.claude/
+.serena/
+.codesandbox/
+.devcontainer/
+web/pnpm-workspace.yaml
