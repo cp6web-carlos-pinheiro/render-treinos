@@ -26,7 +26,14 @@ export default async function AuthPage() {
       </div>
 
       <div className="relative z-10 flex justify-center pt-12">
-        <Image src="/fit-ai-logo.svg" alt="SMILE.FIT.AI" width={85} height={38} />
+        <Image
+          src="/smile-fit-ai-logo.svg"
+          alt="SMILE.FIT.AI"
+          width={0}
+          height={0}
+          className="w-56 md:w-72 h-auto"
+          priority
+        />
       </div>
 
       <div className="flex-1" />
