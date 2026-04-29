@@ -26,7 +26,7 @@ export default async function AuthPage() {
       </div>
 
       <div className="relative z-10 flex justify-center pt-12">
-        <Image src="/fit-ai-logo.svg" alt="FIT.AI" width={85} height={38} />
+        <Image src="/fit-ai-logo.svg" alt="SMILE.FIT.AI" width={85} height={38} />
       </div>
 
       <div className="flex-1" />
@@ -41,7 +41,7 @@ export default async function AuthPage() {
         </div>
 
         <p className="font-heading text-xs leading-[1.4] text-primary-foreground/70">
-          ©2026 Copyright FIT.AI. Todos os direitos reservados
+          ©2026 Copyright SMILE.FIT.AI. Todos os direitos reservados
         </p>
       </div>
     </div>
