@@ -35,6 +35,11 @@ export default async function Home() {
   const { todayWorkoutDay, workoutStreak, consistencyByDay } = homeData.data;
   const userName = session?.user.name?.split(" ")[0] ?? "";
 
+  const calendarHref =
+    homeData.status === 200 && homeData.data.activeWorkoutPlanId
+      ? `/workout-plans/${homeData.data.activeWorkoutPlanId}`
+      : null;
+
   return (
     <div className="flex min-h-svh flex-col bg-background pb-24">
       <div className="relative flex h-[296px] shrink-0 flex-col items-start justify-between overflow-hidden rounded-b-[20px] px-5 pb-10 pt-5">
@@ -59,7 +64,7 @@ export default async function Home() {
           className="relative text-[22px] uppercase leading-[1.15] text-background"
           style={{ fontFamily: "var(--font-anton)" }}
         >
-          Smart Fit ai
+          Smile Fit ai
         </p>
 
         <div className="relative flex w-full items-end justify-between">
@@ -111,9 +116,17 @@ export default async function Home() {
             <h2 className="font-heading text-lg font-semibold text-foreground">
               Treino de Hoje
             </h2>
-            <button className="font-heading text-xs text-primary">
-              Ver treinos
-            </button>
+            {calendarHref ? (
+              <Link href={calendarHref} className="p-3">
+                <button className="font-heading text-xs text-primary">
+                  Ver treinos
+                </button>
+              </Link>
+            ) : (
+              <button className="font-heading text-xs text-primary">
+                Ver treinos
+              </button>
+            )}            
           </div>
 
           <Link

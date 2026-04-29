@@ -695,7 +695,7 @@ export const getGetStatsUrl = (params: GetStatsParams,) => {
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `/stats/?${stringifiedParams}` : `/stats/`
+  return stringifiedParams.length > 0 ? `/api/stats/?${stringifiedParams}` : `/stats/`
 }
 
 export const getStats = async (params: GetStatsParams, options?: RequestInit): Promise<getStatsResponse> => {
