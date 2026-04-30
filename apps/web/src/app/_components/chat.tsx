@@ -51,36 +51,31 @@ export function Chat({ embedded = false, initialMessage }: ChatProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null);  
   const lastEventRef = useRef<string | null>(null);
 
-  useEffect(() => {    
+  useEffect(() => {
     if (embedded && initialMessage) {
       if (lastEventRef.current === "embedded") return;
-  
       lastEventRef.current = "embedded";
       sendMessage({ text: initialMessage });
       return;
-    }  
+    }
+  
+    const { chat_open, chat_event_id, chat_initial_message } = chatParams;
+  
     if (
       !embedded &&
-      chatParams.chat_open &&
-      chatParams.chat_initial_message &&
-      chatParams.chat_event_id &&
-      chatParams.chat_event_id !== lastEventRef.current
+      chat_open &&
+      chat_event_id &&
+      chat_initial_message &&
+      chat_event_id !== lastEventRef.current
     ) {
-      lastEventRef.current = chatParams.chat_event_id;  
-      sendMessage({ text: chatParams.chat_initial_message });  
+      lastEventRef.current = chat_event_id;  
+      sendMessage({ text: chat_initial_message });      
       setChatParams({
         chat_initial_message: null,
+        chat_event_id: null, 
       });
     }
-  }, [
-    embedded,
-    initialMessage,
-    chatParams.chat_open,
-    chatParams.chat_initial_message,
-    chatParams.chat_event_id,
-    sendMessage,
-    setChatParams,
-  ]);
+  }, [embedded, initialMessage, chatParams, sendMessage, setChatParams]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });

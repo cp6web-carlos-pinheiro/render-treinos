@@ -21,7 +21,7 @@ export function ExerciseCard({ exercise }: ExerciseCardProps) {
       chat_open: true,
       chat_initial_message: `Como executar o exercício ${exercise.name} corretamente?`,
       chat_event_id: crypto.randomUUID(),
-    });
+    }, { history: 'push' });
   };
 
   return (
