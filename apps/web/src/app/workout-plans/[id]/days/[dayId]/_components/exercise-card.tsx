@@ -13,12 +13,14 @@ export function ExerciseCard({ exercise }: ExerciseCardProps) {
   const [, setChatParams] = useQueryStates({
     chat_open: parseAsBoolean.withDefault(false),
     chat_initial_message: parseAsString,
+    chat_event_id: parseAsString,
   });
 
   const handleHelp = () => {
     setChatParams({
       chat_open: true,
       chat_initial_message: `Como executar o exercício ${exercise.name} corretamente?`,
+      chat_event_id: crypto.randomUUID(),
     });
   };
 

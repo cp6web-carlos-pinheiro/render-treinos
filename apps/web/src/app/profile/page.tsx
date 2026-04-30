@@ -46,7 +46,7 @@ export default async function ProfilePage() {
           className="text-[22px] uppercase leading-[1.15] text-foreground"
           style={{ fontFamily: "var(--font-anton)" }}
         >
-          Fit.ai
+         Smile Fit.ai
         </p>
       </div>
 

@@ -36,5 +36,5 @@ export default async function OnboardingPage() {
     redirect("/");
   }
 
-  return <Chat embedded initialMessage="Quero começar a melhorar minha saúde!" />;
+  return <Chat embedded initialMessage={`Meu objetivo é melhorar minha saúde. Pode me ajudar a começar?`} />;
 }

@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 
-const SUGGESTED_MESSAGES = ["Monte meu plano de treino"];
+const SUGGESTED_MESSAGES = ["Ajustar meu plano de treino"];
 
 const chatFormSchema = z.object({
   message: z.string().min(1),
@@ -32,6 +32,7 @@ export function Chat({ embedded = false, initialMessage }: ChatProps) {
   const [chatParams, setChatParams] = useQueryStates({
     chat_open: parseAsBoolean.withDefault(false),
     chat_initial_message: parseAsString,
+    chat_event_id: parseAsString,
   });
 
   const { messages, sendMessage, status } = useChat({
@@ -45,42 +46,41 @@ export function Chat({ embedded = false, initialMessage }: ChatProps) {
     resolver: zodResolver(chatFormSchema),
     defaultValues: { message: "" },
   });
+
   const message = useWatch({ control: form.control, name: "message" });
+  const messagesEndRef = useRef<HTMLDivElement>(null);  
+  const lastEventRef = useRef<string | null>(null);
 
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-  const initialMessageSentRef = useRef(false);
-
-  useEffect(() => {
-    if (embedded && initialMessage && !initialMessageSentRef.current) {
-      initialMessageSentRef.current = true;
+  useEffect(() => {    
+    if (embedded && initialMessage) {
+      if (lastEventRef.current === "embedded") return;
+  
+      lastEventRef.current = "embedded";
       sendMessage({ text: initialMessage });
-    }
-  }, [embedded, initialMessage, sendMessage]);
-
-  useEffect(() => {
+      return;
+    }  
     if (
       !embedded &&
       chatParams.chat_open &&
       chatParams.chat_initial_message &&
-      !initialMessageSentRef.current
+      chatParams.chat_event_id &&
+      chatParams.chat_event_id !== lastEventRef.current
     ) {
-      initialMessageSentRef.current = true;
-      sendMessage({ text: chatParams.chat_initial_message });
-      setChatParams({ chat_initial_message: null });
+      lastEventRef.current = chatParams.chat_event_id;  
+      sendMessage({ text: chatParams.chat_initial_message });  
+      setChatParams({
+        chat_initial_message: null,
+      });
     }
   }, [
     embedded,
+    initialMessage,
     chatParams.chat_open,
     chatParams.chat_initial_message,
+    chatParams.chat_event_id,
     sendMessage,
     setChatParams,
   ]);
-
-  useEffect(() => {
-    if (!embedded && !chatParams.chat_open) {
-      initialMessageSentRef.current = false;
-    }
-  }, [embedded, chatParams.chat_open]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -89,7 +89,11 @@ export function Chat({ embedded = false, initialMessage }: ChatProps) {
   if (!embedded && !chatParams.chat_open) return null;
 
   const handleClose = () => {
-    setChatParams({ chat_open: false, chat_initial_message: null });
+    setChatParams({
+      chat_open: false,
+      chat_initial_message: null,
+      chat_event_id: null,
+    });
   };
 
   const onSubmit = (values: ChatFormValues) => {
@@ -131,7 +135,7 @@ export function Chat({ embedded = false, initialMessage }: ChatProps) {
         </div>
         {embedded ? (
           <Button variant="ghost" size="sm" asChild>
-            <Link href="/">Acessar FIT.AI</Link>
+            <Link href="/">Acessar SMILE.FIT.AI</Link>
           </Button>
         ) : (
           <Button variant="ghost" size="icon" onClick={handleClose}>
