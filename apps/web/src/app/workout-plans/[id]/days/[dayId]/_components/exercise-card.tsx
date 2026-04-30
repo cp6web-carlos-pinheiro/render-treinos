@@ -17,11 +17,12 @@ export function ExerciseCard({ exercise }: ExerciseCardProps) {
   });
 
   const handleHelp = () => {
+    const newId = crypto.randomUUID(); 
     setChatParams({
       chat_open: true,
       chat_initial_message: `Como executar o exercício ${exercise.name} corretamente?`,
-      chat_event_id: crypto.randomUUID(),
-    }, { history: 'push' });
+      chat_event_id: newId,
+    }, { history: 'push' }); 
   };
 
   return (
@@ -30,7 +31,7 @@ export function ExerciseCard({ exercise }: ExerciseCardProps) {
         <span className="font-heading text-base font-semibold text-foreground">
           {exercise.name}
         </span>
-        <Button variant="ghost" size="icon" onClick={handleHelp}>
+        <Button className="cursor-pointer" variant="ghost" size="icon" onClick={handleHelp}>
           <CircleHelp className="size-5 text-muted-foreground" />
         </Button>
       </div>

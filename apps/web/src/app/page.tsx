@@ -64,7 +64,7 @@ export default async function Home() {
           className="relative text-[22px] uppercase leading-[1.15] text-background"
           style={{ fontFamily: "var(--font-anton)" }}
         >
-          Smile Fit ai
+          SMILE.FIT.AI
         </p>
 
         <div className="relative flex w-full items-end justify-between">

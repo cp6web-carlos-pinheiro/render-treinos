@@ -51,31 +51,35 @@ export function Chat({ embedded = false, initialMessage }: ChatProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null);  
   const lastEventRef = useRef<string | null>(null);
 
-  useEffect(() => {
-    if (embedded && initialMessage) {
-      if (lastEventRef.current === "embedded") return;
-      lastEventRef.current = "embedded";
-      sendMessage({ text: initialMessage });
-      return;
-    }
+const chatOpen = chatParams.chat_open;
+const chatMessage = chatParams.chat_initial_message;
+const chatEventId = chatParams.chat_event_id;
+
+useEffect(() => {
+  if (embedded && initialMessage) {
+    if (lastEventRef.current === "embedded") return;
+    lastEventRef.current = "embedded";
+    sendMessage({ text: initialMessage });
+    return;
+  }
   
-    const { chat_open, chat_event_id, chat_initial_message } = chatParams;
-  
-    if (
-      !embedded &&
-      chat_open &&
-      chat_event_id &&
-      chat_initial_message &&
-      chat_event_id !== lastEventRef.current
-    ) {
-      lastEventRef.current = chat_event_id;  
-      sendMessage({ text: chat_initial_message });      
-      setChatParams({
-        chat_initial_message: null,
-        chat_event_id: null, 
-      });
-    }
-  }, [embedded, initialMessage, chatParams, sendMessage, setChatParams]);
+  if (
+    !embedded && 
+    chatOpen && 
+    chatEventId && 
+    chatMessage && 
+    chatEventId !== lastEventRef.current
+  ) {
+    lastEventRef.current = chatEventId;
+
+    sendMessage({ text: chatMessage });
+    
+    setChatParams({
+      chat_initial_message: null,
+      chat_event_id: null,
+    }, { shallow: true });
+  }
+}, [chatOpen, chatEventId, chatMessage, embedded, initialMessage, sendMessage, setChatParams]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
